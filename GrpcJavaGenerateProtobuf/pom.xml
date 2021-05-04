@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.example</groupId>
+    <artifactId>grpc-java-generate-protobuf</artifactId>
+    <packaging>jar</packaging>
+    <name>GRPC Java Generate Brotobuf</name>
+
+    <parent>
+        <groupId>org.example</groupId>
+        <artifactId>grpc-java</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-protobuf</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-stub</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <defaultGoal>clean generate-sources compile install</defaultGoal>
+        <plugins>
+            <plugin>
+                <groupId>com.github.os72</groupId>
+                <artifactId>protoc-jar-maven-plugin</artifactId>
+                <version>3.8.0</version>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <!-- 参考: https://qiita.com/nannou/items/4e27bed0de24d7c2cd8a -->
+                        <configuration>
+                            <includeMavenTypes>direct</includeMavenTypes>
+
+                            <!-- 未指定の場合デフォルトは src/main/protobuf とのこと -->
+                            <!-- 参考: https://os72.github.io/protoc-jar-maven-plugin/run-mojo.html#inputDirectories -->
+<!--                            <inputDirectories>-->
+<!--                                <include>src/main/resources</include>-->
+<!--                            </inputDirectories>-->
+
+                            <outputTargets>
+                                <outputTarget>
+                                    <type>java</type>
+                                    <outputDirectory>${build.outputDirectory}/generated/java</outputDirectory>
+                                </outputTarget>
+                                <outputTarget>
+                                    <type>python</type>
+                                    <outputDirectory>${build.outputDirectory}/generated/python</outputDirectory>
+                                </outputTarget>
+
+                                <outputTarget>
+                                    <type>grpc-java</type>
+                                    <pluginArtifact>io.grpc:protoc-gen-grpc-java:1.22.1</pluginArtifact>
+                                    <outputDirectory>${build.outputDirectory}/generated/grpc-java</outputDirectory>
+                                </outputTarget>
+                            </outputTargets>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
