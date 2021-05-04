@@ -11,8 +11,8 @@
     <name>GRPC Java</name>
 
     <modules>
-        <module>grpc-java-generate-protobuf</module>
-        <module>grpc-java-impl</module>
+        <module>GrpcJavaGenerateProtobuf</module>
+        <module>GrpcJavaImpl</module>
     </modules>
 
     <properties>

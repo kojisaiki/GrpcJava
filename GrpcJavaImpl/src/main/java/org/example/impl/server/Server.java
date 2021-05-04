@@ -1,3 +1,5 @@
+package org.example.impl.server;
+
 import io.grpc.ServerBuilder;
 
 public class Server {
